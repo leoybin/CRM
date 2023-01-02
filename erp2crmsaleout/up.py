@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 
-from ERPtoCRM.config import conn1,conn
+from erp2crmsaleout.config import conn1,conn
 
 new_account = 'mssql+pymssql://{}:{}@{}:{}/{}?charset=utf8'.format(conn1['DB_USER'], conn1['DB_PASS'],
                                                                    conn1['DB_HOST'],

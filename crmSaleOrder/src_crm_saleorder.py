@@ -1,9 +1,13 @@
 import datetime
 from urllib import parse
 
+from k3cloud_webapi_sdk.main import K3CloudApiSdk
+
+from crmSaleOrder.metadata import ERP_delete, ERP_unAudit
 import pandas as pd
 from pyrda.dbms.rds import RdClient
 from sqlalchemy import create_engine
+from crmSaleOrder.metadata import inser_logging
 
 bad_password1 = 'rds@2022'
 conn2 = {'DB_USER': 'dms',
@@ -19,6 +23,14 @@ conn3 = {'DB_USER': 'lingdang',
          'DB_PORT': 33306,
          'DATABASE': 'ldcrm',
          }
+option = {
+    "acct_id": '63310e555e38b1',
+    "user_name": '杨斌',
+    "app_id": '240072_1e2qRzvGzulUR+1vQ6XK29Tr2q28WLov',
+    # "app_sec": 'd019b038bc3c4b02b962e1756f49e179',
+    "app_sec": '224f05e7023743d9a0ab51d3bf803741',
+    "server_url": 'http://cellprobio.gnway.cc/k3cloud',
+}
 
 
 class CrmToDms():
@@ -38,7 +50,7 @@ class CrmToDms():
         sql = """
         select FSaleorderno,FBillTypeIdName,FDate,FCustId,FCustName,FSaleorderentryseq,FPrdnumber,FPruName,Fqty,Fprice,
         Ftaxrate,Ftaxamount,FTaxPrice,FAllamountfor,FSaleDeptName,FSaleGroupName,FUserName,Fdescription,FIsfree,
-        FIsDo,Fpurchasedate,FSalePriorityName,FSaleTypeName,Fmoney,FCollectionTerms,FDocumentStatus
+        FIsDo,Fpurchasedate,FSalePriorityName,FSaleTypeName,Fmoney,FCollectionTerms,FDocumentStatus,Fapprovesubmittedtime
         from rds_crm_sales_saleorder
         """
         df = pd.read_sql(sql, self.crm_engine)
@@ -74,18 +86,60 @@ class CrmToDms():
             if r['FSaleorderno'] not in Saleorderentryseq_lis:
                 if r['FDocumentStatus'] == '已批准':
                     try:
-                        print(r)
-                        sql1 = f"""insert into RDS_CRM_SRC_sales_order(FInterId,FSALEORDERNO,FBILLTYPEIDNAME,FSALEDATE,FCUSTCODE,FCUSTOMNAME,FSALEORDERENTRYSEQ,FPRDNUMBER,FPRDNAME,FQTY,FPRICE,FMONEY,FTAXRATE,FTAXAMOUNT,FTAXPRICE,FALLAMOUNTFOR,FSALDEPT,FSALGROUP,FSALER,FDESCRIPTION,FIsfree,FIsDO,FPurchaseDate,FUrgency,FSalesType,FCollectionTerms,FUpDateTime,FDocumentStatus) values 
+                        sql1 = f"""insert into RDS_CRM_SRC_sales_order(FInterId,FSALEORDERNO,FBILLTYPEIDNAME,FSALEDATE,FCUSTCODE,FCUSTOMNAME,FSALEORDERENTRYSEQ,FPRDNUMBER,FPRDNAME,FQTY,FPRICE,FMONEY,FTAXRATE,FTAXAMOUNT,FTAXPRICE,FALLAMOUNTFOR,FSALDEPT,FSALGROUP,FSALER,FDESCRIPTION,FIsfree,FIsDO,FPurchaseDate,FUrgency,FSalesType,FCollectionTerms,FUpDateTime,FDocumentStatus,FSubmitTime) values 
                                ({self.getFinterId(app3, 'RDS_ECS_SRC_sales_order') + 1},'{r['FSaleorderno']}','{r['FBillTypeIdName']}','{datetime.date(*map(int, r['FDate'][:10].split('-')))}','{r['FCustId']}','{r['FCustName']}',{r['FSaleorderentryseq']},'{r['FPrdnumber']}','{r['FPruName']}',
-                                {r['Fqty']},'{r['Fprice']}','{r['FMoney']}','{r['Ftaxrate']}','{r['Ftaxamount']}','{r['FTaxPrice']}','{r['FAllamountfor']}','{r['FSaleDeptName']}','{r['FSaleGroupName']}','{r['FUserName']}','{r['Fdescription']}',0,0,'{r['Fpurchasedate']}','{r['FSalePriorityName']}','{r['FSaleTypeName']}','{r['FCollectionTerms']}',getdate(),'{r['FDocumentStatus']}')"""
+                                {r['Fqty']},'{r['Fprice']}','{r['FMoney']}','{r['Ftaxrate']}','{r['Ftaxamount']}','{r['FTaxPrice']}','{r['FAllamountfor']}','{r['FSaleDeptName']}','{r['FSaleGroupName']}','{r['FUserName']}','{r['Fdescription']}',0,0,'{r['Fpurchasedate']}','{r['FSalePriorityName']}','{r['FSaleTypeName']}','{r['FCollectionTerms']}',getdate(),'{r['FDocumentStatus']}','{r['Fapprovesubmittedtime']}')"""
                         app3.insert(sql1)
+                        print("{}该销售订单数据已成功保存".format(r['FSaleorderno']))
                     except:
-                        print("{}该销售订单数据异常".format(r['FSaleorderentryseq']))
-                else:
-                    print("{}该销售订单未批准".format(r['FSaleorderentryseq']))
 
+                        inser_logging(app3,
+                                      '销售订单CRM同步到SRC', f'{r["FSaleorderno"]}',
+                                      f'{r["FSaleorderno"]}此订单数据异常,无法存入SRC,请检查数据',
+                                      )
+                        print(f"{r['FSaleorderno']}此订单数据异常,无法存入SRC,请检查数据")
+                else:
+                    inser_logging(app3,
+                                  '销售订单CRM同步到SRC', f'{r["FSaleorderno"]}',
+                                  f'{r["FSaleorderno"]}该销售订单未批准',
+                                  )
+                    print("{}该销售订单未批准".format(r['FSaleorderno']))
             else:
-                print("{}该销售订单已存在".format(r['FSaleorderentryseq']))
+                sub_sql = f"""select FSALEORDERNO from RDS_CRM_SRC_sales_order where FSALEORDERNO = '{r['FSaleorderno']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo !=1
+                """
+                dexist = app3.select(sub_sql)
+                if not dexist:
+                    del_sql = f"""
+                    delete from RDS_CRM_SRC_sales_order where FSALEORDERNO = '{r['FSaleorderno']}'
+                    """
+                    app3.delete(del_sql)
+                    sql1 = f"""insert into RDS_CRM_SRC_sales_order(FInterId,FSALEORDERNO,FBILLTYPEIDNAME,FSALEDATE,FCUSTCODE,FCUSTOMNAME,FSALEORDERENTRYSEQ,FPRDNUMBER,FPRDNAME,FQTY,FPRICE,FMONEY,FTAXRATE,FTAXAMOUNT,FTAXPRICE,FALLAMOUNTFOR,FSALDEPT,FSALGROUP,FSALER,FDESCRIPTION,FIsfree,FIsDO,FPurchaseDate,FUrgency,FSalesType,FCollectionTerms,FUpDateTime,FDocumentStatus,FSubmitTime) values 
+                                                   ({self.getFinterId(app3, 'RDS_ECS_SRC_sales_order') + 1},'{r['FSaleorderno']}','{r['FBillTypeIdName']}','{datetime.date(*map(int, r['FDate'][:10].split('-')))}','{r['FCustId']}','{r['FCustName']}',{r['FSaleorderentryseq']},'{r['FPrdnumber']}','{r['FPruName']}',
+                                                    {r['Fqty']},'{r['Fprice']}','{r['FMoney']}','{r['Ftaxrate']}','{r['Ftaxamount']}','{r['FTaxPrice']}','{r['FAllamountfor']}','{r['FSaleDeptName']}','{r['FSaleGroupName']}','{r['FUserName']}','{r['Fdescription']}',0,0,'{r['Fpurchasedate']}','{r['FSalePriorityName']}','{r['FSaleTypeName']}','{r['FCollectionTerms']}',getdate(),'{r['FDocumentStatus']}','{r['Fapprovesubmittedtime']}')"""
+                    app3.insert(sql1)
+                    api_sdk = K3CloudApiSdk()
+                    api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
+                                       option['app_sec'], option['server_url'])
+                    res_unAudit = ERP_unAudit(api_sdk, r['FSaleorderno'])
+                    res_delete = ERP_delete(api_sdk, r['FSaleorderno'])
+                    print(res_unAudit, res_delete)
+                    print("{}该销售订单已更新".format(r['FSaleorderno']))
+
+                    inser_logging(app3,
+                                  '销售订单CRM同步到SRC', f'{r["FSaleorderno"]}',
+                                  f'{res_unAudit}'
+                                  )
+
+                    inser_logging(app3,
+                                  '销售订单CRM同步到SRC', f'{r["FSaleorderno"]}',
+                                  f'{res_delete}'
+                                  )
+                else:
+                    inser_logging(app3,
+                                  '销售订单CRM同步到SRC', f'{r["FSaleorderno"]}',
+                                  "{}该销售订单已存在".format(r['FSaleorderno'])
+                                  )
+                    print("{}该销售订单已存在".format(r['FSaleorderno']))
 
     def get_saleorder(self):
         sql = """
@@ -104,6 +158,9 @@ class CrmToDms():
             df.loc[:, "FIsDo"] = '0'
             df = df.drop_duplicates('FBillNo', keep='first', )
             df.to_sql("RDS_CRM_SRC_saleOrderList", self.dms_engine, if_exists='append', index=False)
+
+
+
 
 
 if __name__ == '__main__':

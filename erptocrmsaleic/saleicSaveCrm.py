@@ -5,7 +5,7 @@ from requests import *
 from sqlalchemy import create_engine
 import pandas as pd
 
-from ERPtoCRM.config import conn3
+from erp2crmsaleout.config import conn3
 
 '''
 * http://123.207.201.140:88/test/crmapi-demo/outboundorder.php

@@ -25,6 +25,21 @@
       <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_md_deliveryWay" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_md_saleOrg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_sales_saleOrder" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ERPtoCRM/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ERPtoCRM/saleOutToDMS.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ERPtoCRM/salesOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/salesOutStock.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ERPtoCRM/up.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/up.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmNoticeShipment/metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmNoticeShipment/metadata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmSaleBilling/metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleBilling/metadata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmSaleOrder/metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleOrder/metadata.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/erptocrmsaleic/saleicSaveCrm.py" beforeDir="false" afterPath="$PROJECT_DIR$/erptocrmsaleic/saleicSaveCrm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/erptocrmsaleic/salesicToCRM.py" beforeDir="false" afterPath="$PROJECT_DIR$/erptocrmsaleic/salesicToCRM.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rdcrm" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/receiveReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/receiveReturn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesInvoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesInvoice.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesOutStock.py" afterDir="false" />
@@ -58,7 +73,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/rdcrm" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -73,7 +88,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../build_egg" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
@@ -90,29 +105,8 @@
       <recent name="E:\项目文件\赛普\crmapi-demo" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.salesicToCRM (1)">
-    <configuration name="mainModel (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="crmapi-demo" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/crmNoticeShipment" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/crmNoticeShipment/mainModel.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="mainModel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.mainModel (2)">
+    <configuration name="mainModel (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="crmapi-demo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -133,7 +127,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="saleicSaveCrm" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mainModel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="crmapi-demo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -141,11 +135,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ERPtoCRM" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/crmSaleBilling" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ERPtoCRM/saleicSaveCrm.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/crmSaleBilling/mainModel.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,7 +148,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="salesicToCRM (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="saleOutToDMS" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="crmapi-demo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -162,11 +156,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/erptocrmsaleic" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/erp2crmsaleout" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/erptocrmsaleic/salesicToCRM.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -175,7 +169,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="salesicToCRM" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="salesOutStock" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="crmapi-demo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -183,11 +177,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ERPtoCRM" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/erp2crmsaleout" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ERPtoCRM/salesicToCRM.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/erp2crmsaleout/salesOutStock.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="src_crm_salebilling" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="crmapi-demo" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/crmSaleBilling" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -198,11 +213,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.salesicToCRM (1)" />
-        <item itemvalue="Python.mainModel (1)" />
+        <item itemvalue="Python.mainModel (2)" />
         <item itemvalue="Python.mainModel" />
-        <item itemvalue="Python.saleicSaveCrm" />
-        <item itemvalue="Python.salesicToCRM" />
+        <item itemvalue="Python.src_crm_salebilling" />
+        <item itemvalue="Python.salesOutStock" />
+        <item itemvalue="Python.saleOutToDMS" />
       </list>
     </recent_temporary>
   </component>
@@ -242,89 +257,89 @@
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
     <state x="2538" y="316" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1670816450434" />
-    <state x="2058" y="464" width="789" height="671" key="#xdebugger.evaluate" timestamp="1672386938935">
+    <state x="2516" y="458" width="1185" height="574" key="#xdebugger.evaluate" timestamp="1672651594511">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state x="578" y="91" key="#xdebugger.evaluate/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1670490447671" />
-    <state x="2058" y="464" width="1185" height="568" key="#xdebugger.evaluate/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672386938935" />
+    <state x="442" y="111" key="#xdebugger.evaluate/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672633095529" />
+    <state x="2516" y="458" width="1185" height="574" key="#xdebugger.evaluate/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651594511" />
     <state x="268" y="145" width="789" height="671" key="#xdebugger.evaluate/0.0.1536.816@0.0.1536.816" timestamp="1672327522595" />
-    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1672451424864">
+    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1672540157945">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672451424864" />
+    <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672540157945" />
     <state x="2606" y="206" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672381127852" />
     <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816@0.0.1536.816" timestamp="1672195051747" />
-    <state width="1876" height="308" key="GridCell.Tab.0.bottom" timestamp="1672398693525">
+    <state width="1876" height="328" key="GridCell.Tab.0.bottom" timestamp="1672651674036">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="308" key="GridCell.Tab.0.bottom/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672378705803" />
-    <state width="1876" height="308" key="GridCell.Tab.0.bottom/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672398693525" />
-    <state width="1492" height="248" key="GridCell.Tab.0.bottom/0.0.1536.816@0.0.1536.816" timestamp="1672367441672" />
+    <state width="1492" height="333" key="GridCell.Tab.0.bottom/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632866722" />
+    <state width="1876" height="328" key="GridCell.Tab.0.bottom/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651674036" />
+    <state width="1492" height="246" key="GridCell.Tab.0.bottom/0.0.1536.816@0.0.1536.816" timestamp="1672626712544" />
     <state width="1876" height="246" key="GridCell.Tab.0.bottom/0.0.1920.1032@0.0.1920.1032" timestamp="1672026493553" />
-    <state width="1876" height="308" key="GridCell.Tab.0.center" timestamp="1672398693525">
+    <state width="1876" height="328" key="GridCell.Tab.0.center" timestamp="1672651674036">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="308" key="GridCell.Tab.0.center/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672378705803" />
-    <state width="1876" height="308" key="GridCell.Tab.0.center/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672398693525" />
-    <state width="1492" height="248" key="GridCell.Tab.0.center/0.0.1536.816@0.0.1536.816" timestamp="1672367441671" />
+    <state width="1492" height="333" key="GridCell.Tab.0.center/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632866722" />
+    <state width="1876" height="328" key="GridCell.Tab.0.center/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651674036" />
+    <state width="1492" height="246" key="GridCell.Tab.0.center/0.0.1536.816@0.0.1536.816" timestamp="1672626712544" />
     <state width="1876" height="246" key="GridCell.Tab.0.center/0.0.1920.1032@0.0.1920.1032" timestamp="1672026493553" />
-    <state width="1876" height="308" key="GridCell.Tab.0.left" timestamp="1672398693524">
+    <state width="1876" height="328" key="GridCell.Tab.0.left" timestamp="1672651674036">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="308" key="GridCell.Tab.0.left/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672378705803" />
-    <state width="1876" height="308" key="GridCell.Tab.0.left/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672398693524" />
-    <state width="1492" height="248" key="GridCell.Tab.0.left/0.0.1536.816@0.0.1536.816" timestamp="1672367441671" />
+    <state width="1492" height="333" key="GridCell.Tab.0.left/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632866722" />
+    <state width="1876" height="328" key="GridCell.Tab.0.left/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651674036" />
+    <state width="1492" height="246" key="GridCell.Tab.0.left/0.0.1536.816@0.0.1536.816" timestamp="1672626712544" />
     <state width="1876" height="246" key="GridCell.Tab.0.left/0.0.1920.1032@0.0.1920.1032" timestamp="1672026493553" />
-    <state width="1876" height="308" key="GridCell.Tab.0.right" timestamp="1672398693525">
+    <state width="1876" height="328" key="GridCell.Tab.0.right" timestamp="1672651674036">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="308" key="GridCell.Tab.0.right/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672378705803" />
-    <state width="1876" height="308" key="GridCell.Tab.0.right/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672398693525" />
-    <state width="1492" height="248" key="GridCell.Tab.0.right/0.0.1536.816@0.0.1536.816" timestamp="1672367441672" />
+    <state width="1492" height="333" key="GridCell.Tab.0.right/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632866722" />
+    <state width="1876" height="328" key="GridCell.Tab.0.right/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651674036" />
+    <state width="1492" height="246" key="GridCell.Tab.0.right/0.0.1536.816@0.0.1536.816" timestamp="1672626712544" />
     <state width="1876" height="246" key="GridCell.Tab.0.right/0.0.1920.1032@0.0.1920.1032" timestamp="1672026493553" />
-    <state width="1876" height="333" key="GridCell.Tab.1.bottom" timestamp="1672395346487">
+    <state width="1876" height="333" key="GridCell.Tab.1.bottom" timestamp="1672651600755">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="250" key="GridCell.Tab.1.bottom/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672376922803" />
-    <state width="1876" height="333" key="GridCell.Tab.1.bottom/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672395346487" />
+    <state width="1492" height="333" key="GridCell.Tab.1.bottom/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632888373" />
+    <state width="1876" height="333" key="GridCell.Tab.1.bottom/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651600755" />
     <state width="1492" height="251" key="GridCell.Tab.1.bottom/0.0.1536.816@0.0.1536.816" timestamp="1672367360099" />
-    <state width="1876" height="333" key="GridCell.Tab.1.center" timestamp="1672395346487">
+    <state width="1876" height="333" key="GridCell.Tab.1.center" timestamp="1672651600754">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="250" key="GridCell.Tab.1.center/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672376922803" />
-    <state width="1876" height="333" key="GridCell.Tab.1.center/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672395346487" />
+    <state width="1492" height="333" key="GridCell.Tab.1.center/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632888373" />
+    <state width="1876" height="333" key="GridCell.Tab.1.center/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651600754" />
     <state width="1492" height="251" key="GridCell.Tab.1.center/0.0.1536.816@0.0.1536.816" timestamp="1672367360099" />
-    <state width="1876" height="333" key="GridCell.Tab.1.left" timestamp="1672395346487">
+    <state width="1876" height="333" key="GridCell.Tab.1.left" timestamp="1672651600754">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="250" key="GridCell.Tab.1.left/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672376922802" />
-    <state width="1876" height="333" key="GridCell.Tab.1.left/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672395346487" />
+    <state width="1492" height="333" key="GridCell.Tab.1.left/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632888373" />
+    <state width="1876" height="333" key="GridCell.Tab.1.left/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651600754" />
     <state width="1492" height="251" key="GridCell.Tab.1.left/0.0.1536.816@0.0.1536.816" timestamp="1672367360099" />
-    <state width="1876" height="333" key="GridCell.Tab.1.right" timestamp="1672395346487">
+    <state width="1876" height="333" key="GridCell.Tab.1.right" timestamp="1672651600754">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="1492" height="250" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672376922803" />
-    <state width="1876" height="333" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672395346487" />
+    <state width="1492" height="333" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672632888373" />
+    <state width="1876" height="333" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672651600754" />
     <state width="1492" height="251" key="GridCell.Tab.1.right/0.0.1536.816@0.0.1536.816" timestamp="1672367360099" />
     <state x="369" y="106" key="SettingsEditor" timestamp="1671935129717">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
     <state x="2381" y="160" key="SettingsEditor/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1669615911722" />
     <state x="369" y="106" key="SettingsEditor/0.0.1536.816@0.0.1536.816" timestamp="1671935129717" />
-    <state width="969" height="525" key="XDebugger.FullValuePopup" timestamp="1672395259200">
+    <state width="969" height="525" key="XDebugger.FullValuePopup" timestamp="1672563671988">
       <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state width="969" height="525" key="XDebugger.FullValuePopup/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672395259200" />
+    <state width="969" height="525" key="XDebugger.FullValuePopup/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672563671988" />
     <state width="775" height="415" key="XDebugger.FullValuePopup/0.0.1536.816@0.0.1536.816" timestamp="1672367024076" />
     <state x="323" y="137" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1670835395759">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
     <state x="323" y="137" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.816@0.0.1536.816" timestamp="1670835395759" />
-    <state x="-17" y="237" width="1401" height="661" maximized="true" key="dock-window-1" timestamp="1671334138274">
+    <state x="-7" y="-7" width="1549" height="662" maximized="true" key="dock-window-1" timestamp="1672642997437">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
-    <state x="-17" y="237" width="1401" height="661" key="dock-window-1/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1671184942471" />
-    <state x="24" y="0" width="1526" height="711" maximized="true" key="dock-window-1/0.0.1536.816@0.0.1536.816" timestamp="1671334138274" />
+    <state x="-7" y="-7" width="1549" height="662" maximized="true" key="dock-window-1/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672642997437" />
+    <state x="24" y="0" width="1526" height="711" key="dock-window-1/0.0.1536.816@0.0.1536.816" timestamp="1672569743126" />
     <state x="546" y="180" width="570" height="636" key="find.popup" timestamp="1670831251388">
       <screen x="0" y="0" width="1536" height="816" />
     </state>
@@ -449,7 +464,7 @@
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ERPtoCRM/saleOutToDMS.py</url>
+          <url>file://$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py</url>
           <line>89</line>
           <option name="timeStamp" value="63" />
         </line-breakpoint>
@@ -460,22 +475,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>170</line>
+          <line>169</line>
           <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>20</line>
+          <line>18</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>18</line>
+          <line>16</line>
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>33</line>
+          <line>31</line>
           <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -484,32 +499,22 @@
           <option name="timeStamp" value="75" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py</url>
-          <line>102</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmNoticeShipment/utility.py</url>
           <line>82</line>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py</url>
-          <line>79</line>
-          <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ERPtoCRM/salesOutStock.py</url>
+          <url>file://$PROJECT_DIR$/erp2crmsaleout/salesOutStock.py</url>
           <line>98</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ERPtoCRM/saleOutToDMS.py</url>
+          <url>file://$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py</url>
           <line>36</line>
           <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ERPtoCRM/salesOutStock.py</url>
+          <url>file://$PROJECT_DIR$/erp2crmsaleout/salesOutStock.py</url>
           <line>91</line>
           <option name="timeStamp" value="101" />
         </line-breakpoint>
@@ -525,49 +530,94 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>197</line>
+          <line>196</line>
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crmSaleOrder/metadata.py</url>
-          <line>10</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py</url>
-          <line>71</line>
-          <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ERPtoCRM/salesOutStock.py</url>
+          <url>file://$PROJECT_DIR$/erp2crmsaleout/salesOutStock.py</url>
           <line>85</line>
           <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py</url>
-          <line>104</line>
-          <option name="timeStamp" value="115" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
-          <line>84</line>
+          <line>82</line>
           <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleOrder/metadata.py</url>
+          <line>276</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://D:/软件/个人/WeChat/files/WeChat Files/wxid_qd6dfhzkudwv12/FileStorage/File/2023-01/custtoerp.py</url>
+          <line>78</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py</url>
+          <line>122</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleOrder/metadata.py</url>
+          <line>289</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py</url>
-          <line>82</line>
-          <option name="timeStamp" value="118" />
+          <line>97</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py</url>
+          <line>137</line>
+          <option name="timeStamp" value="154" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="120" />
+          <line>122</line>
+          <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>120</line>
+          <option name="timeStamp" value="157" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>105</line>
+          <option name="timeStamp" value="159" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>103</line>
+          <option name="timeStamp" value="161" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>101</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py</url>
+          <line>98</line>
+          <option name="timeStamp" value="164" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/crmSaleBilling/metadata.py</url>
+          <line>150</line>
+          <option name="timeStamp" value="165" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="sql1" />
+        <watch expression="sql1" language="Python" />
       </configuration>
     </watches-manager>
   </component>

@@ -1,8 +1,6 @@
 import json
 from crmSaleBilling import operation as db
 from crmSaleBilling import utility as ut
-
-
 def ERP_Save(api_sdk, data, option, app2, app3):
     '''
     调用ERP保存接口
@@ -108,19 +106,20 @@ def ERP_Save(api_sdk, data, option, app2, app3):
                 submit_res = ERP_submit(api_sdk, FNumber)
 
                 if submit_res:
-
-                    audit_res = ERP_Audit(api_sdk, FNumber)
-
-                    if audit_res:
-
-                        db.changeStatus(app3, str(i[0]['FBILLNO']), "3")
-
-                    else:
-                        pass
+                    db.changeStatus(app3, str(i[0]['FBILLNO']), "3")
+                    # audit_res = ERP_Audit(api_sdk, FNumber)
+                    #
+                    # if audit_res:
+                    #
+                    #     db.changeStatus(app3, str(i[0]['FBILLNO']), "3")
+                    #
+                    # else:
+                    #     pass
                 else:
                     pass
             else:
-
+                inser_logging(app3, '销售开票保存到ERP', i[0]['FBILLNO'],
+                              save_result['Result']['ResponseStatus']['Errors'][0]['Message'])
                 db.changeStatus(app3, str(i[0]['FBILLNO']), "2")
                 print(save_result)
                 print(str(i[0]['FBILLNO']))
@@ -159,9 +158,9 @@ def ERP_Audit(api_sdk, FNumber):
         "IgnoreInterationFlag": ""
     }
 
-    # res = json.loads(api_sdk.Audit("AR_receivable", model))
+    res = json.loads(api_sdk.Audit("AR_receivable", model))
 
-    # return res['Result']['ResponseStatus']['IsSuccess']
+    return res['Result']['ResponseStatus']['IsSuccess']
 
 
 def json_model(app2, model_data, api_sdk):
@@ -245,3 +244,42 @@ def outOrder_view(api_sdk, value, materialID):
          "TopRowCount": 0}))
 
     return res
+
+def ERP_unAudit(api_sdk, FNumber):
+    model = {
+        "CreateOrgId": 0,
+        "Numbers": [FNumber],
+        "Ids": "",
+        "InterationFlags": "",
+        "IgnoreInterationFlag": "",
+        "NetworkCtrl": "",
+        "IsVerifyProcInst": ""
+    }
+    res = json.loads(api_sdk.UnAudit("AR_receivable", model))
+
+    if res['Result']['ResponseStatus']['IsSuccess']:
+        return f'{FNumber}订单删除成功'
+    else:
+        return res['Result']['ResponseStatus']['Errors'][0]['Message']
+
+
+def ERP_delete(api_sdk, FNumber):
+    model ={
+        "CreateOrgId": 0,
+        "Numbers": [FNumber],
+        "Ids": "",
+        "NetworkCtrl": ""
+    }
+    res = json.loads(api_sdk.Delete("AR_receivable", model))
+
+    if res['Result']['ResponseStatus']['IsSuccess']:
+        return f'{FNumber}订单删除成功'
+    else:
+        return res['Result']['ResponseStatus']['Errors'][0]['Message']
+
+def inser_logging(app, programName, FNumber, Fmessage):
+    sql = f"""
+    insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
+    ('{programName}','{FNumber}','{Fmessage}',getdate())
+    """
+    app.insert(sql)

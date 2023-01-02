@@ -2,7 +2,8 @@ import json
 from crmNoticeShipment import operation as nro
 from crmNoticeShipment import utility as nru
 
-
+from crmNoticeShipment.src_crm_notice import CrmToDms
+c = CrmToDms()
 def associated(app2, api_sdk, option, data, app3):
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
@@ -84,7 +85,8 @@ def associated(app2, api_sdk, option, data, app3):
                 else:
                     pass
             else:
-
+                c.inser_logging('发货通知单保存到ERP', i[0]['FDELIVERYNO'],
+                              res['Result']['ResponseStatus']['Errors'][0]['Message'])
                 nro.changeStatus(app3, str(i[0]['FDELIVERYNO']), "2")
                 print(res)
                 print(str(i[0]['FDELIVERYNO']))
@@ -156,3 +158,37 @@ def check_deliveryExist(api_sdk, FNumber):
     res = json.loads(api_sdk.View("SAL_DELIVERYNOTICE", model))
 
     return res['Result']['ResponseStatus']['IsSuccess']
+
+
+def ERP_unAudit(api_sdk, FNumber):
+    model = {
+        "CreateOrgId": 0,
+        "Numbers": [FNumber],
+        "Ids": "",
+        "InterationFlags": "",
+        "IgnoreInterationFlag": "",
+        "NetworkCtrl": "",
+        "IsVerifyProcInst": ""
+    }
+    res = json.loads(api_sdk.UnAudit("SAL_DELIVERYNOTICE", model))
+
+    if res['Result']['ResponseStatus']['IsSuccess']:
+        return f'{FNumber}订单删除成功'
+    else:
+        return res['Result']['ResponseStatus']['Errors'][0]['Message']
+
+
+def ERP_delete(api_sdk, FNumber):
+    model ={
+        "CreateOrgId": 0,
+        "Numbers": [FNumber],
+        "Ids": "",
+        "NetworkCtrl": ""
+    }
+    res = json.loads(api_sdk.Delete("SAL_DELIVERYNOTICE", model))
+
+    if res['Result']['ResponseStatus']['IsSuccess']:
+        return f'{FNumber}订单删除成功'
+    else:
+        return res['Result']['ResponseStatus']['Errors'][0]['Message']
+

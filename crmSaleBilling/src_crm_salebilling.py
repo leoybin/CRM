@@ -1,8 +1,11 @@
 import pymssql
 from urllib import parse
 import pandas as pd
+from k3cloud_webapi_sdk.main import K3CloudApiSdk
 from pyrda.dbms.rds import RdClient
 from sqlalchemy import create_engine
+
+from crmSaleBilling.metadata import ERP_unAudit, ERP_delete,ERP_Audit
 
 bad_password1 = 'rds@2022'
 conn2 = {'DB_USER': 'dms',
@@ -18,6 +21,14 @@ conn3 = {'DB_USER': 'lingdang',
          'DB_PORT': 33306,
          'DATABASE': 'ldcrm',
          }
+option = {
+    "acct_id": '63310e555e38b1',
+    "user_name": '杨斌',
+    "app_id": '240072_1e2qRzvGzulUR+1vQ6XK29Tr2q28WLov',
+    # "app_sec": 'd019b038bc3c4b02b962e1756f49e179',
+    "app_sec": '224f05e7023743d9a0ab51d3bf803741',
+    "server_url": 'http://cellprobio.gnway.cc/k3cloud',
+}
 
 
 class CrmToDms():
@@ -36,17 +47,11 @@ class CrmToDms():
         self.dms_engine = create_engine(dms_conn)
         self.crm_engine = create_engine(crm_conn)
 
-    # def get_dms_saledelievry(self):
-    #     sql = """select * from RDS_CRM_SRC_sal_billreceivable
-    #     """
-    #     df = pd.read_sql(sql, self.dms_engine)
-    #     return df.columns
-
     def get_sale_out(self):
         sql = """
         select FInvoiceid,FSaleorderno,FDelivaryNo,FBillNO,FBillTypeNumber,FInvoiceType,FCustId,FSaleorderentryseq,FCustName,
         FPrdNumber,FName,Fqty,FUnitprice,Fmoney,FBillTypeId,FNoteType,FBankBillNo,FBillCode,FTaxrate,FInvoicedate,FUpdatetime,FIspackingBillNo,
-        FIsDo,FCurrencyName,FDocumentStatus
+        FIsDo,FCurrencyName,FDocumentStatus,Fapprovesubmittedtime
         from rds_crm_sales_invoice
         """
         df = pd.read_sql(sql, self.crm_engine)
@@ -73,22 +78,75 @@ class CrmToDms():
             if r['FBIllNo'] not in invoice_lis:
                 if r['FDocumentStatus'] == '已批准':
                     try:
-                        print(r)
                         sql1 = f"""insert into RDS_CRM_SRC_sal_billreceivable(FInterID,FCUSTNUMBER,FOUTSTOCKBILLNO,FSALEORDERENTRYSEQ,FBILLTYPEID,
                         FCUSTOMNAME,FBANKBILLNO,FBILLNO,FPrdNumber,FPrdName,FQUANTITY,FTAXRATE,FTRADENO,FNOTETYPE,FISPACKINGBILLNO,
-                        FBILLCODE,FINVOICEID,FINVOICEDATE,UPDATETIME,FIsDo,FCurrencyName,FDocumentStatus)values
+                        FBILLCODE,FINVOICEID,FINVOICEDATE,UPDATETIME,FIsDo,FCurrencyName,FDocumentStatus,FSubmitTime)values
                                   ({self.getFinterId(app3, 'RDS_CRM_SRC_sal_billreceivable') + 1},'{r['FCustId']}','{r['FDelivaryNo']}',
                                   {r['FSaleorderentryseq']},'{r['FBillTypeNumber']}','{r['FCustName']}','{r['FBankBillNo']}','{r['FBIllNo']}','{r['FPrdNumber']}','{r['FName']}',{r['Fqty']},
                                   '{r['FTaxrate']}','{r['FSaleorderno']}','{r['FNoteType']}','{r['FIspackingBillNo']}','{r['FBillCode']}','{r['FInvoiceid']}',
-                                  '{r['FInvoicedate']}','{r['FUpdatetime']}',0,'{r['FCurrencyName']}','{r['FDocumentStatus']}')"""
+                                  '{r['FInvoicedate']}','{r['FUpdatetime']}',0,'{r['FCurrencyName']}','{r['FDocumentStatus']}','{r['Fapprovesubmittedtime']}')"""
                         self.new_cursor.execute(sql1)
                         self.new_con.commit()
+                        print("{}该发票数据已成功保存".format(r['FBIllNo']))
                     except:
+                        self.inser_logging('销售发票CRM保存到SRC', f"{r['FBIllNo']}", f"{r['FBIllNo']}该发票数据异常,清检查该条数据")
                         print("{}该发票数据异常".format(r['FBIllNo']))
                 else:
+                    self.inser_logging('销售发票CRM保存到SRC', f"{r['FBIllNo']}", f"{r['FBIllNo']}该发票数据未批准")
                     print("{}该发票数据未批准".format(r['FBIllNo']))
             else:
-                print("{}该发票数据已存在".format(r['FBIllNo']))
+                if r["FBIllNo"] != None:
+                    sub_sql = f"""select FBIllNo from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo !=1
+                                   """
+                    try:
+                        dexist = app3.select(sub_sql)
+                        if not dexist:
+                            del_sql = f"""
+                                        delete from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}'
+                                        """
+                            self.new_cursor.execute(del_sql)
+                            self.new_con.commit()
+                            sql1 = f"""insert into RDS_CRM_SRC_sal_billreceivable(FInterID,FCUSTNUMBER,FOUTSTOCKBILLNO,FSALEORDERENTRYSEQ,FBILLTYPEID,
+                                                   FCUSTOMNAME,FBANKBILLNO,FBILLNO,FPrdNumber,FPrdName,FQUANTITY,FTAXRATE,FTRADENO,FNOTETYPE,FISPACKINGBILLNO,
+                                                   FBILLCODE,FINVOICEID,FINVOICEDATE,UPDATETIME,FIsDo,FCurrencyName,FDocumentStatus,FSubmitTime)values
+                                                             ({self.getFinterId(app3, 'RDS_CRM_SRC_sal_billreceivable') + 1},'{r['FCustId']}','{r['FDelivaryNo']}',
+                                                             {r['FSaleorderentryseq']},'{r['FBillTypeNumber']}','{r['FCustName']}','{r['FBankBillNo']}','{r['FBIllNo']}','{r['FPrdNumber']}','{r['FName']}',{r['Fqty']},
+                                                             '{r['FTaxrate']}','{r['FSaleorderno']}','{r['FNoteType']}','{r['FIspackingBillNo']}','{r['FBillCode']}','{r['FInvoiceid']}',
+                                                             '{r['FInvoicedate']}','{r['FUpdatetime']}',0,'{r['FCurrencyName']}','{r['FDocumentStatus']}','{r['Fapprovesubmittedtime']}')"""
+                            self.new_cursor.execute(sql1)
+                            self.new_con.commit()
+                            api_sdk = K3CloudApiSdk()
+                            api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
+                                               option['app_sec'], option['server_url'])
+                            res_Audit = ERP_Audit(api_sdk, r['FBIllNo'])
+                            res_unAudit = ERP_unAudit(api_sdk, r['FBIllNo'])
+                            res_delete = ERP_delete(api_sdk, r['FBIllNo'])
+                            print(res_Audit,res_unAudit, res_delete)
+                            print("{}该销售开票已更新".format(r['FBIllNo']))
+                            self.inser_logging(
+                                          '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
+                                          f'{res_unAudit}'
+                                          )
+
+                            self.inser_logging(
+                                          '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
+                                          f'{res_delete}'
+                                          )
+                        self.inser_logging('销售发票CRM保存到SRC', f"{r['FBIllNo']}", f"{r['FBIllNo']}该发票数据已存在")
+                        print("{}该发票数据已存在".format(r['FBIllNo']))
+                    except:
+                        self.inser_logging('销售开票CRM保存到SRC', f'{r["FBIllNo"]}', f'{r["FBIllNo"]}该销售开票数据异常')
+                        print(f"{r['FBIllNo']}此销售开票数据异常,无法存入SRC,请检查数据")
+                else:
+                    self.inser_logging('销售开票CRM保存到SRC', f'{r["FBIllNo"]}', "{}该销售出库单没有下推到销售开票".format(r['FOUTSTOCKBILLNO']))
+                    print("{}该销售出库单没有下推到销售开票".format(r['FOUTSTOCKBILLNO']))
+
+    def inser_logging(self, programName, FNumber, Fmessage):
+        sql = f"""
+        insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values('{programName}','{FNumber}','{Fmessage}',getdate())
+        """
+        self.new_cursor.execute(sql)
+        self.new_con.commit()
 
 
 if __name__ == '__main__':

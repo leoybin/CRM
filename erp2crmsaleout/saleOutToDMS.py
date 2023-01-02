@@ -1,7 +1,7 @@
 import pandas as pd
 from pyrda.dbms.rds import RdClient
 
-from ERPtoCRM.config import conn1, conn
+from erp2crmsaleout.config import conn1, conn
 from sqlalchemy import create_engine
 
 
