@@ -310,7 +310,7 @@ def ERP_delete(api_sdk, FNumber):
 
 def inser_logging(app, programName, FNumber, Fmessage):
     sql = f"""
-    insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
+    insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
     ('{programName}','{FNumber}','{Fmessage}',getdate())
     """
     app.insert(sql)

@@ -5,7 +5,7 @@ from k3cloud_webapi_sdk.main import K3CloudApiSdk
 from pyrda.dbms.rds import RdClient
 from sqlalchemy import create_engine
 
-from crmSaleBilling.metadata import ERP_unAudit, ERP_delete,ERP_Audit
+from crmSaleBilling.metadata import ERP_unAudit, ERP_delete, ERP_Audit
 
 bad_password1 = 'rds@2022'
 conn2 = {'DB_USER': 'dms',
@@ -121,32 +121,36 @@ class CrmToDms():
                             res_Audit = ERP_Audit(api_sdk, r['FBIllNo'])
                             res_unAudit = ERP_unAudit(api_sdk, r['FBIllNo'])
                             res_delete = ERP_delete(api_sdk, r['FBIllNo'])
-                            print(res_Audit,res_unAudit, res_delete)
+                            print(res_Audit, res_unAudit, res_delete)
                             print("{}该销售开票已更新".format(r['FBIllNo']))
                             self.inser_logging(
-                                          '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
-                                          f'{res_unAudit}'
-                                          )
+                                '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
+                                f'{res_unAudit}'
+                            )
 
                             self.inser_logging(
-                                          '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
-                                          f'{res_delete}'
-                                          )
+                                '销售订单CRM同步到SRC', f'{r["FBIllNo"]}',
+                                f'{res_delete}'
+                            )
                         self.inser_logging('销售发票CRM保存到SRC', f"{r['FBIllNo']}", f"{r['FBIllNo']}该发票数据已存在")
                         print("{}该发票数据已存在".format(r['FBIllNo']))
                     except:
                         self.inser_logging('销售开票CRM保存到SRC', f'{r["FBIllNo"]}', f'{r["FBIllNo"]}该销售开票数据异常')
                         print(f"{r['FBIllNo']}此销售开票数据异常,无法存入SRC,请检查数据")
                 else:
-                    self.inser_logging('销售开票CRM保存到SRC', f'{r["FBIllNo"]}', "{}该销售出库单没有下推到销售开票".format(r['FOUTSTOCKBILLNO']))
+                    self.inser_logging('销售开票CRM保存到SRC', f'{r["FBIllNo"]}',
+                                       "{}该销售出库单没有下推到销售开票".format(r['FOUTSTOCKBILLNO']))
                     print("{}该销售出库单没有下推到销售开票".format(r['FOUTSTOCKBILLNO']))
 
-    def inser_logging(self, programName, FNumber, Fmessage):
-        sql = f"""
-        insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values('{programName}','{FNumber}','{Fmessage}',getdate())
-        """
-        self.new_cursor.execute(sql)
-        self.new_con.commit()
+    # def inser_logging(self, programName, FNumber, Fmessage):
+    #     sql = f"""insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values('{programName}','{FNumber}','{Fmessage}',getdate())"""
+    #     app3.insert(sql)
+
+    def inser_logging(self, FProgramName, FNumber, FMessage, FOccurrenceTime='GETDATE()', FCompanyName='CP'):
+        app3 = RdClient(token='9B6F803F-9D37-41A2-BDA0-70A7179AF0F3')
+        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "'," + FOccurrenceTime + ",'" + FCompanyName + "')"
+        data = app3.insert(sql)
+        return data
 
 
 if __name__ == '__main__':

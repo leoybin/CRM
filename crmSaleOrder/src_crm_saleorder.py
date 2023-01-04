@@ -16,6 +16,7 @@ conn2 = {'DB_USER': 'dms',
          'DB_PORT': 1433,
          'DATABASE': 'cprds',
          }
+
 bad_password2 = 'lingdangcrm123!@#'
 conn3 = {'DB_USER': 'lingdang',
          'DB_PASS': parse.quote_plus(bad_password2),
@@ -23,6 +24,7 @@ conn3 = {'DB_USER': 'lingdang',
          'DB_PORT': 33306,
          'DATABASE': 'ldcrm',
          }
+
 option = {
     "acct_id": '63310e555e38b1',
     "user_name": '杨斌',
@@ -158,9 +160,6 @@ class CrmToDms():
             df.loc[:, "FIsDo"] = '0'
             df = df.drop_duplicates('FBillNo', keep='first', )
             df.to_sql("RDS_CRM_SRC_saleOrderList", self.dms_engine, if_exists='append', index=False)
-
-
-
 
 
 if __name__ == '__main__':
