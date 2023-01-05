@@ -1,9 +1,12 @@
+import datetime
+
 from pyrda.dbms.rds import RdClient
 from crmSaleBilling import operation as db
 from crmSaleBilling import utility as ut
 from crmSaleBilling import metadata as mt
 from k3cloud_webapi_sdk.main import K3CloudApiSdk
 from crmSaleBilling.src_crm_salebilling import CrmToDms
+
 
 def salesBilling():
     app2 = RdClient(token='4D181CAB-4CE3-47A3-8F2B-8AB11BB6A227')
@@ -38,9 +41,11 @@ def salesBilling():
 
         mt.ERP_Save(api_sdk=api_sdk, data=res, option=option1, app2=app2, app3=app3)
 
+
 if __name__ == '__main__':
     token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
     app3 = RdClient(token=token_erp)
     c = CrmToDms()
-    c.sale_out_to_dms(app3)
+    FDate = str(datetime.datetime.now())[:10]
+    c.salebilling_to_dms(app3, FDate)
     salesBilling()

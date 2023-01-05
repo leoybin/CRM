@@ -1,3 +1,4 @@
+import datetime
 from urllib import parse
 
 from k3cloud_webapi_sdk.main import K3CloudApiSdk
@@ -52,12 +53,12 @@ class CrmToDms():
         #                                password='rds@2022', charset='utf-8')
         # self.new_cursor = self.new_con.cursor()
 
-    def get_sale_out(self):
-        sql = """
+    def get_sale_notice(self, FDate):
+        sql = f"""
         select FSaleorderno,FDelivaryNo,FBillTypeIdName,Fdeliverystatus,Fdeliverydate,Fstock,FCustId,FCustName,
         FprNumber,FName,Fcostprice,FPrice,Fqty,Flot,FProductdate,FEffectivedate,FUnit,FdeliverPrice,Ftaxrate,
         FUserName,FOnlineSalesName,FCheakstatus,FMofidyTime,FIsDo,FIsFree,FDATE,FArStatus,FOUTID,FCurrencyName,FDocumentStatus,Fapprovesubmittedtime
-        from rds_crm_shippingadvice
+        from rds_crm_shippingadvice where Fapprovesubmittedtime >'{FDate}'
         """
         df = pd.read_sql(sql, self.crm_engine)
         return df
@@ -73,8 +74,8 @@ class CrmToDms():
         res = app2.select(sql)
         return res[0]['FMaxId']
 
-    def sale_out_to_dms(self, app3):
-        df_sale_order = self.get_sale_out()
+    def sale_notice(self, app3,FDate):
+        df_sale_order = self.get_sale_notice(FDate)
         cust_list = app3.select('select FDELIVERYNO from RDS_CRM_SRC_sal_delivery')
         cus_list = []
         for i in cust_list:
@@ -103,7 +104,7 @@ class CrmToDms():
                     print("{}该发货通知单未批准".format(r['FDelivaryNo']))
             else:
                 if r["FDelivaryNo"] != None:
-                    sub_sql = f"""select FDELIVERYNO from RDS_CRM_SRC_sal_delivery where FDELIVERYNO = '{r["FDelivaryNo"]}' and FSubmitTime = '{r["Fapprovesubmittedtime"]}' and FIsDo !=1
+                    sub_sql = f"""select FDELIVERYNO from RDS_CRM_SRC_sal_delivery where FDELIVERYNO = '{r["FDelivaryNo"]}' and FSubmitTime = '{r["Fapprovesubmittedtime"]}' and FIsDo =3
                                    """
                     try:
                         dexist = app3.select(sub_sql)
@@ -138,14 +139,10 @@ class CrmToDms():
                                        "{}该销售订单没有下推到发货通知单".format(r['FSaleorderno']))
                     print("{}该销售订单没有下推到发货通知单".format(r['FSaleorderno']))
 
-    def inser_logging(self, programName, FNumber, Fmessage):
-        sql = f"""
-        insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values('{programName}','{FNumber}','{Fmessage}',getdate())
-        """
-        self.new_cursor.execute(sql)
-        self.new_con.commit()
+    def inser_logging(self, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19], FCompanyName='CP'):
+        app3 = RdClient(token='9B6F803F-9D37-41A2-BDA0-70A7179AF0F3')
+        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
+        data = app3.insert(sql)
+        return data
 
 
-if __name__ == '__main__':
-    c = CrmToDms()
-    c.sale_out_to_dms(app3)

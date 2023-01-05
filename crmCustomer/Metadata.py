@@ -1,3 +1,4 @@
+import datetime
 import json
 
 
@@ -159,10 +160,12 @@ def ERP_customersave(api_sdk, option, dData, app2, rc, app3):
                     rc.changeStatus(app3, "2", "RDS_CRM_SRC_Customer", "FNumber", i['FNumber'])
                     print(subri)
             else:
+                inser_logging(app3,'crm保存客户数据到ERP',i['FNumber'],sri['Result']['ResponseStatus']['Errors'][0]['Message'])
                 rc.changeStatus(app3, "2", "RDS_CRM_SRC_Customer", "FNumber", i['FNumber'])
                 print(sri)
         else:
-            print("该编码{}数据已存在于金蝶".format(i['FNumber']))
+            inser_logging(app3, 'crm保存客户数据到ERP', i['FNumber'], "该客户{}数据已存在于金蝶".format(i['FName']))
+            print("{}已存在于金蝶".format(i['FName']))
 
 
 def SaveAfterAllocation(api_sdk, i, rc, app2, FNumber):
@@ -402,3 +405,9 @@ def ERP_CancelAllocate(app2, rc, api_sdk, FNumber, FApplyOrgName):
         return f'{FNumber}客户取消分配成功'
     else:
         return res['Result']['ResponseStatus']['Errors'][0]['Message']
+
+def inser_logging(app,FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19], FCompanyName='CP'):
+
+    sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
+    data = app.insert(sql)
+    return data

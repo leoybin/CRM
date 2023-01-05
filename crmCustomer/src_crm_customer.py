@@ -1,7 +1,9 @@
+import datetime
 from urllib import parse
 
 import pymssql
 from k3cloud_webapi_sdk.main import K3CloudApiSdk
+from pyrda.dbms.rds import RdClient
 
 from crmCustomer.Metadata import ERP_delete, ERP_unAudit, ERP_CancelAllocate
 from crmCustomer import Utility as rc
@@ -56,8 +58,8 @@ class CrmToDms():
         self.dms_engine = create_engine(dms_conn)
         self.crm_engine = create_engine(crm_conn)
 
-    def get_sale_order(self):
-        sql = """
+    def get_customer(self, FDate):
+        sql = f"""
         select FApplyOrgName,FApplierName,FDate,FCustId,FNumber,FName,
         FShortName,FINVOICETITLE,FBankName,FINVOICEADDRESS,
         FINVOICETEL,FAccountNumber,FRECCONDITIONNO,FINVOICETYPE,
@@ -69,7 +71,7 @@ class CrmToDms():
         FGroupNo,F_SZSP_KHZYJBNo,FIsdo,F_SZSP_BLOCNAME,
         F_SZSP_KHGHSXNo,F_SZSP_XSMSNo,F_SZSP_XSMSSXNo,F_SZSP_Text,
         Fapprovestatus
-        from rds_crm_md_customer WHERE FUploadDate > '2022-12-12'
+        from rds_crm_md_customer WHERE FUploadDate > '{FDate}'
         """
         df = pd.read_sql(sql, self.crm_engine)
         return df
@@ -88,8 +90,8 @@ class CrmToDms():
 
         return res[0]['FMaxId']
 
-    def sale_order_to_dms(self, app3, app2):
-        df_sale_order = self.get_sale_order()
+    def crm_customer(self, app3, app2, FDate):
+        df_sale_order = self.get_customer(FDate)
         cust_lis = app3.select('select FNumber from RDS_CRM_SRC_Customer')
         custNum_lis = []
         for i in cust_lis:
@@ -127,19 +129,19 @@ class CrmToDms():
                         app3.insert(sql1)
                         print("{}该客户数据已成功保存".format(r['FNumber']))
                     except:
-                        self.inser_logging(app3,
+                        self.inser_logging(
                                            '客户CRM同步到SRC', f'{r["FNumber"]}',
                                            f'{r["FNumber"]}此订单数据异常,无法存入SRC,请检查数据',
                                            )
                         print(f"{r['FNumber']}此订单数据异常,无法存入SRC,请检查数据")
                 else:
-                    self.inser_logging(app3,
+                    self.inser_logging(
                                        '客户CRM同步到SRC', f'{r["FNumber"]}',
                                        f'{r["FNumber"]}该销售订单未批准',
                                        )
                     print("{}该客户未批准".format(r['FNumber']))
             else:
-                sub_sql = f"""select FNumber from RDS_CRM_SRC_Customer where FNumber = '{r['FNumber']}' and FUploadDate = '{r['FUploadDate']}' and FIsDo !=1
+                sub_sql = f"""select FNumber from RDS_CRM_SRC_Customer where FNumber = '{r['FNumber']}' and FUploadDate = '{r['FUploadDate']}' and FIsDo =1
                 """
                 dexist = app3.select(sub_sql)
                 if not dexist:
@@ -178,7 +180,9 @@ class CrmToDms():
                     api_sdk = K3CloudApiSdk()
                     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                                        option['app_sec'], option['server_url'])
-                    FNumber = app2.select("select FNumber from rds_vw_customer where FNAME = '{}'".format(r['FName']))[0]['FNumber']
+                    FNumber = \
+                    app2.select("select FNumber from rds_vw_customer where FNAME = '{}'".format(r['FName']))[0][
+                        'FNumber']
                     # self.new_cursor.execute("select * from rds_vw_customer where FNAME = %s", r['FName'])
                     # FNumber = self.new_cursor.fetchone()[1]
                     res_unAudit = ERP_unAudit(api_sdk, FNumber)
@@ -186,28 +190,27 @@ class CrmToDms():
                     res_delete = ERP_delete(api_sdk, FNumber)
                     print(res_cancelallocate, res_unAudit, res_delete)
 
-                    self.inser_logging(app3,
+                    self.inser_logging(
                                        '客户CRM同步到SRC', f'{r["FNumber"]}',
                                        f'{res_unAudit}'
                                        )
 
-                    self.inser_logging(app3,
+                    self.inser_logging(
                                        '客户CRM同步到SRC', f'{r["FNumber"]}',
                                        f'{res_delete}'
                                        )
                 else:
-                    self.inser_logging(app3,
+                    self.inser_logging(
                                        '客户CRM同步到SRC', f'{r["FNumber"]}',
                                        "{}该客户已存在".format(r['FNumber'])
                                        )
                     print("{}该客户已存在".format(r['FNumber']))
 
-    def inser_logging(self, app, programName, FNumber, Fmessage):
-        sql = f"""
-        insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
-        ('{programName}','{FNumber}','{Fmessage}',getdate())
-        """
-        app.insert(sql)
+    def inser_logging(self, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19], FCompanyName='CP'):
+        app3 = RdClient(token='9B6F803F-9D37-41A2-BDA0-70A7179AF0F3')
+        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
+        data = app3.insert(sql)
+        return data
 
     def queryDocuments(self, number, name):
         sql = f"""

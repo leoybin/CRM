@@ -2,8 +2,8 @@ import json
 from crmNoticeShipment import operation as nro
 from crmNoticeShipment import utility as nru
 
-from crmNoticeShipment.src_crm_notice import CrmToDms
-c = CrmToDms()
+# from crmNoticeShipment.src_crm_notice import CrmToDms
+# c = CrmToDms()
 def associated(app2, api_sdk, option, data, app3):
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
@@ -85,7 +85,7 @@ def associated(app2, api_sdk, option, data, app3):
                 else:
                     pass
             else:
-                c.inser_logging('发货通知单保存到ERP', i[0]['FDELIVERYNO'],
+                inser_logging(app2,'发货通知单保存到ERP', i[0]['FDELIVERYNO'],
                               res['Result']['ResponseStatus']['Errors'][0]['Message'])
                 nro.changeStatus(app3, str(i[0]['FDELIVERYNO']), "2")
                 print(res)
@@ -192,3 +192,9 @@ def ERP_delete(api_sdk, FNumber):
     else:
         return res['Result']['ResponseStatus']['Errors'][0]['Message']
 
+def inser_logging(app, programName, FNumber, Fmessage):
+    sql = f"""
+    insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
+    ('{programName}','{FNumber}','{Fmessage}',getdate())
+    """
+    app.insert(sql)

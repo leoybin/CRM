@@ -1,9 +1,12 @@
+import datetime
+
 from pyrda.dbms.rds import RdClient
 from k3cloud_webapi_sdk.main import K3CloudApiSdk
 from crmSaleOrder import utility as ut
 from crmSaleOrder import metadata as mt
 from crmSaleOrder import operation as db
 from crmSaleOrder.src_crm_saleorder import CrmToDms
+
 
 def salesOrder():
     '''
@@ -18,7 +21,7 @@ def salesOrder():
 
     data = db.getCode(app3)
 
-    if data :
+    if data:
         res = ut.classification_process(app3, data)
 
         api_sdk = K3CloudApiSdk()
@@ -51,6 +54,7 @@ if __name__ == '__main__':
     token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
     app3 = RdClient(token=token_erp)
     c = CrmToDms()
-    c.sale_order_to_dms(app3)
+    FDate = str(datetime.datetime.now())[:10]
+    c.sale_order_to_dms(app3, FDate)
     c.get_saleorder()
     salesOrder()

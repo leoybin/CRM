@@ -1,3 +1,5 @@
+import datetime
+
 from k3cloud_webapi_sdk.main import K3CloudApiSdk
 from pyrda.dbms.rds import RdClient
 
@@ -46,6 +48,6 @@ if __name__ == '__main__':
     token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
     app3 = RdClient(token=token_erp)
     c = CrmToDms()
-    c.sale_out_to_dms(app3)
+    FDate = str(datetime.datetime.now())[:10]
+    c.sale_notice(app3, FDate)
     noticeShipment()
-

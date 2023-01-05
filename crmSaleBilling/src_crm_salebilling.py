@@ -1,3 +1,5 @@
+import datetime
+
 import pymssql
 from urllib import parse
 import pandas as pd
@@ -47,12 +49,12 @@ class CrmToDms():
         self.dms_engine = create_engine(dms_conn)
         self.crm_engine = create_engine(crm_conn)
 
-    def get_sale_out(self):
-        sql = """
+    def get_salebilling(self, FDate):
+        sql = f"""
         select FInvoiceid,FSaleorderno,FDelivaryNo,FBillNO,FBillTypeNumber,FInvoiceType,FCustId,FSaleorderentryseq,FCustName,
         FPrdNumber,FName,Fqty,FUnitprice,Fmoney,FBillTypeId,FNoteType,FBankBillNo,FBillCode,FTaxrate,FInvoicedate,FUpdatetime,FIspackingBillNo,
         FIsDo,FCurrencyName,FDocumentStatus,Fapprovesubmittedtime
-        from rds_crm_sales_invoice
+        from rds_crm_sales_invoice where Fapprovesubmittedtime > '{FDate}'
         """
         df = pd.read_sql(sql, self.crm_engine)
         return df
@@ -68,8 +70,8 @@ class CrmToDms():
         res = app2.select(sql)
         return res[0]['FMaxId']
 
-    def sale_out_to_dms(self, app3):
-        df_sale_order = self.get_sale_out()
+    def salebilling_to_dms(self, app3, FDate):
+        df_sale_order = self.get_salebilling(FDate)
         invoiceId_lis = app3.select("select FBILLNO from RDS_CRM_SRC_sal_billreceivable")
         invoice_lis = []
         for i in invoiceId_lis:
@@ -96,7 +98,7 @@ class CrmToDms():
                     print("{}该发票数据未批准".format(r['FBIllNo']))
             else:
                 if r["FBIllNo"] != None:
-                    sub_sql = f"""select FBIllNo from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo !=1
+                    sub_sql = f"""select FBIllNo from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo =3
                                    """
                     try:
                         dexist = app3.select(sub_sql)
@@ -146,15 +148,8 @@ class CrmToDms():
     #     sql = f"""insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values('{programName}','{FNumber}','{Fmessage}',getdate())"""
     #     app3.insert(sql)
 
-    def inser_logging(self, FProgramName, FNumber, FMessage, FOccurrenceTime='GETDATE()', FCompanyName='CP'):
+    def inser_logging(self, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19], FCompanyName='CP'):
         app3 = RdClient(token='9B6F803F-9D37-41A2-BDA0-70A7179AF0F3')
-        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "'," + FOccurrenceTime + ",'" + FCompanyName + "')"
+        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
         data = app3.insert(sql)
         return data
-
-
-if __name__ == '__main__':
-    token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
-    app3 = RdClient(token=token_erp)
-    c = CrmToDms()
-    c.sale_out_to_dms(app3)

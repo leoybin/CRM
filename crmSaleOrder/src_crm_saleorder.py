@@ -48,12 +48,12 @@ class CrmToDms():
         self.dms_engine = create_engine(dms_conn)
         self.crm_engine = create_engine(crm_conn)
 
-    def get_sale_order(self):
-        sql = """
+    def get_sale_order(self,FDate):
+        sql = f"""
         select FSaleorderno,FBillTypeIdName,FDate,FCustId,FCustName,FSaleorderentryseq,FPrdnumber,FPruName,Fqty,Fprice,
         Ftaxrate,Ftaxamount,FTaxPrice,FAllamountfor,FSaleDeptName,FSaleGroupName,FUserName,Fdescription,FIsfree,
         FIsDo,Fpurchasedate,FSalePriorityName,FSaleTypeName,Fmoney,FCollectionTerms,FDocumentStatus,Fapprovesubmittedtime
-        from rds_crm_sales_saleorder
+        from rds_crm_sales_saleorder where Fapprovesubmittedtime > '{FDate}'
         """
         df = pd.read_sql(sql, self.crm_engine)
         return df
@@ -78,8 +78,8 @@ class CrmToDms():
 
         return res[0]['FMaxId']
 
-    def sale_order_to_dms(self, app3):
-        df_sale_order = self.get_sale_order()
+    def sale_order_to_dms(self, app3,FDate):
+        df_sale_order = self.get_sale_order(FDate)
         sOrder_lis = app3.select('select FSaleorderno from RDS_CRM_SRC_sales_order')
         Saleorderentryseq_lis = []
         for i in sOrder_lis:
@@ -107,7 +107,7 @@ class CrmToDms():
                                   )
                     print("{}该销售订单未批准".format(r['FSaleorderno']))
             else:
-                sub_sql = f"""select FSALEORDERNO from RDS_CRM_SRC_sales_order where FSALEORDERNO = '{r['FSaleorderno']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo !=1
+                sub_sql = f"""select FSALEORDERNO from RDS_CRM_SRC_sales_order where FSALEORDERNO = '{r['FSaleorderno']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo =1
                 """
                 dexist = app3.select(sub_sql)
                 if not dexist:
@@ -160,6 +160,7 @@ class CrmToDms():
             df.loc[:, "FIsDo"] = '0'
             df = df.drop_duplicates('FBillNo', keep='first', )
             df.to_sql("RDS_CRM_SRC_saleOrderList", self.dms_engine, if_exists='append', index=False)
+
 
 
 if __name__ == '__main__':
