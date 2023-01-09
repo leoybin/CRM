@@ -20,47 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3b32c196-5382-443e-80d5-4b1c4f03e8bc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/erptocrmsaleic/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/material.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/rdcrm/sales/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_md_customerAddress" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_md_deliveryWay" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_md_saleOrg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rdcrm/tests/sql_sales_saleOrder" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/erp2crmsaleout/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/erptocrmsaleic/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmCustomer/Metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmCustomer/Metadata.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmCustomer/customerOAInterface.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmCustomer/customerOAInterface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmCustomer/src_crm_customer.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmCustomer/src_crm_customer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmMaterial/src_crm_material.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmMaterial/src_crm_material.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmNoticeShipment/mainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmNoticeShipment/mainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmNoticeShipment/metadata.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmNoticeShipment/metadata.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmNoticeShipment/src_crm_notice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmSaleBilling/mainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleBilling/mainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleBilling/src_crm_salebilling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmSaleOrder/mainModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleOrder/mainModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/crmSaleOrder/src_crm_saleorder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/saleOutToDMS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/erp2crmsaleout/up.py" beforeDir="false" afterPath="$PROJECT_DIR$/erp2crmsaleout/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/erptocrmsaleic/salesicToCRM.py" beforeDir="false" afterPath="$PROJECT_DIR$/erptocrmsaleic/salesicToCRM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/receiveReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/receiveReturn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesInvoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesInvoice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesOutStock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesReturn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesStatement.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/salesStatement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/sampleOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/bill/sampleOutStock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/build/lib/rdcrm/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/receiveReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/receiveReturn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesInvoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesInvoice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesOrder.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesOrder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesOutStock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesReturn.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesReturn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesStatement.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/salesStatement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/bill/sampleOutStock.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/bill/sampleOutStock.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/md/customer.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/md/customer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/rdcrm/md/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/rdcrm/md/product.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rdcrm/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/rdcrm/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/crmMaterial/CRMsaveMaterial.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,21 +58,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../basedata" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../项目文件/赛普/build_egg" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\项目文件\赛普\crmapi-demo" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\github\CRM\erptocrmsaleic" />
+      <recent name="E:\github\CRM\erp2crmsaleout" />
       <recent name="E:\项目文件\赛普\crmapi-demo\crmMaterial" />
       <recent name="E:\项目文件\赛普\crmapi-demo\crmCustomer" />
       <recent name="E:\项目文件\赛普\crmapi-demo\rdcrm\rdcrm\md" />
-      <recent name="E:\项目文件\赛普\crmapi-demo\客户whl" />
-      <recent name="E:\项目文件\赛普\crmapi-demo" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\项目文件\赛普\crmapi-demo" />
     </key>
   </component>
   <component name="RunManager" selected="Python.saleOutToDMS">
@@ -278,11 +241,11 @@
       <screen x="0" y="0" width="1536" height="816" />
     </state>
     <state x="93" y="93" width="1350" height="630" key="DiffContextDialog/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672888434368" />
-    <state x="549" y="163" key="FileChooserDialogImpl" timestamp="1672888541759">
-      <screen x="0" y="0" width="1536" height="816" />
+    <state x="2606" y="206" key="FileChooserDialogImpl" timestamp="1672908778497">
+      <screen x="1920" y="0" width="1920" height="1032" />
     </state>
     <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672888541759" />
-    <state x="2606" y="206" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672816550500" />
+    <state x="2606" y="206" key="FileChooserDialogImpl/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672908778497" />
     <state x="549" y="163" key="FileChooserDialogImpl/0.0.1536.816@0.0.1536.816" timestamp="1672195051747" />
     <state width="1492" height="242" key="GridCell.Tab.0.bottom" timestamp="1672889259138">
       <screen x="0" y="0" width="1536" height="816" />
@@ -336,10 +299,10 @@
     <state width="1492" height="239" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@0.0.1536.816" timestamp="1672889211775" />
     <state width="1876" height="320" key="GridCell.Tab.1.right/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672831507381" />
     <state width="1492" height="251" key="GridCell.Tab.1.right/0.0.1536.816@0.0.1536.816" timestamp="1672367360099" />
-    <state x="369" y="106" key="SettingsEditor" timestamp="1671935129717">
-      <screen x="0" y="0" width="1536" height="816" />
+    <state x="2381" y="160" key="SettingsEditor" timestamp="1672896246390">
+      <screen x="1920" y="0" width="1920" height="1032" />
     </state>
-    <state x="2381" y="160" key="SettingsEditor/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1669615911722" />
+    <state x="2381" y="160" key="SettingsEditor/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672896246390" />
     <state x="369" y="106" key="SettingsEditor/0.0.1536.816@0.0.1536.816" timestamp="1671935129717" />
     <state width="776" height="416" key="XDebugger.FullValuePopup" timestamp="1672889080084">
       <screen x="0" y="0" width="1536" height="816" />
@@ -387,9 +350,10 @@
     </state>
     <state x="2603" y="228" width="596" height="804" key="find.popup/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1669624556570" />
     <state x="546" y="180" width="570" height="636" key="find.popup/0.0.1536.816@0.0.1536.816" timestamp="1670831251388" />
-    <state x="431" y="137" width="672" height="678" key="search.everywhere.popup" timestamp="1672366244979">
-      <screen x="0" y="0" width="1536" height="816" />
+    <state x="2459" y="173" width="840" height="858" key="search.everywhere.popup" timestamp="1672908612287">
+      <screen x="1920" y="0" width="1920" height="1032" />
     </state>
+    <state x="2459" y="173" width="840" height="858" key="search.everywhere.popup/0.0.1536.816/1920.0.1920.1032@1920.0.1920.1032" timestamp="1672908612287" />
     <state x="431" y="137" width="672" height="678" key="search.everywhere.popup/0.0.1536.816@0.0.1536.816" timestamp="1672366244979" />
   </component>
   <component name="XDebuggerManager">
