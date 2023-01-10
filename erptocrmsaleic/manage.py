@@ -1,7 +1,11 @@
 from erptocrmsaleic.saleicSaveCrm import get_data
 from erptocrmsaleic.salesicToCRM import ERP2CRM
 
-if __name__ == '__main__':
+
+def run():
     acc = ERP2CRM()
     acc.ERP2DMS()
-    get_data()
+    res = get_data()
+    return res
+
+

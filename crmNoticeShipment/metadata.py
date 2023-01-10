@@ -7,7 +7,7 @@ from crmNoticeShipment import utility as nru
 def associated(app2, api_sdk, option, data, app3):
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
-
+    ret_data = []
     for i in data:
 
         if check_deliveryExist(api_sdk, i[0]['FDELIVERYNO']) != True:
@@ -71,7 +71,7 @@ def associated(app2, api_sdk, option, data, app3):
                 FNumber = res['Result']['ResponseStatus']['SuccessEntitys'][0]['Number']
 
                 submit_res = ERP_submit(api_sdk, FNumber)
-
+                ret_data.append(res['Result']['ResponseStatus']['SuccessEntitys'][0]['Number']+'保存成功')
                 if submit_res:
 
                     audit_res = ERP_Audit(api_sdk, FNumber)
@@ -88,8 +88,15 @@ def associated(app2, api_sdk, option, data, app3):
                 inser_logging(app2,'发货通知单保存到ERP', i[0]['FDELIVERYNO'],
                               res['Result']['ResponseStatus']['Errors'][0]['Message'])
                 nro.changeStatus(app3, str(i[0]['FDELIVERYNO']), "2")
+                ret_data.append(res)
                 print(res)
                 print(str(i[0]['FDELIVERYNO']))
+    ret_dict = {
+        "code": "1",
+        "message": ret_data,
+
+    }
+    return ret_dict
 
 
 def ERP_submit(api_sdk, FNumber):

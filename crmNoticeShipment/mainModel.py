@@ -41,13 +41,22 @@ def noticeShipment():
 
         api_sdk = K3CloudApiSdk()
 
-        mt.associated(app2, api_sdk, option1, res, app3)
+        result = mt.associated(app2, api_sdk, option1, res, app3)
+        return result
+    else:
+        ret_dict = {
+            "code": "0",
+            "message": "没有销售发货通知单",
+        }
+        return ret_dict
 
-
-if __name__ == '__main__':
+def run():
     token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
     app3 = RdClient(token=token_erp)
     c = CrmToDms()
     FDate = str(datetime.datetime.now())[:10]
     c.sale_notice(app3, FDate)
-    noticeShipment()
+    res = noticeShipment()
+    return res
+
+print(run())

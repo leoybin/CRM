@@ -12,12 +12,13 @@ def ERP_customersave(api_sdk, option, dData, app2, rc, app3):
 
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
-
+    ret_data = []
     for i in dData:
         # if ExistFname(app2,'RDS_OA_ODS_bd_CustomerDetail',i['FName']):
         #     print(f"该{i['FName']}已存在 ")
         #     continue
-        if rc.getStatus(app3, i['FNumber'], 'RDS_CRM_SRC_Customer') and rc.checkCustomerExist(app2, i['FName']) ==[]:
+
+        if rc.getStatus(app3, i['FNumber'], 'RDS_CRM_SRC_Customer') and rc.checkCustomerExist(app2, i['FName']) == []:
             model = {
                 "Model": {
                     "FCUSTID": 0,
@@ -122,12 +123,12 @@ def ERP_customersave(api_sdk, option, dData, app2, rc, app3):
             sri = json.loads(savedResultInformation)
 
             if sri['Result']['ResponseStatus']['IsSuccess']:
-
                 submittedResultInformation = ERP_customersubmit(
                     sri['Result']['ResponseStatus']['SuccessEntitys'][0]['Number'], api_sdk)
                 print(f"编码为：{submittedResultInformation}数据提交成功")
 
                 subri = json.loads(submittedResultInformation)
+                ret_data.append(subri['Result']['ResponseStatus']['SuccessEntitys'][0]['Number'] + '保存成功')
 
                 if subri['Result']['ResponseStatus']['IsSuccess']:
 
@@ -160,12 +161,19 @@ def ERP_customersave(api_sdk, option, dData, app2, rc, app3):
                     rc.changeStatus(app3, "2", "RDS_CRM_SRC_Customer", "FNumber", i['FNumber'])
                     print(subri)
             else:
-                inser_logging(app3,'crm保存客户数据到ERP',i['FNumber'],sri['Result']['ResponseStatus']['Errors'][0]['Message'])
+                inser_logging(app3, 'crm保存客户数据到ERP', i['FNumber'],
+                              sri['Result']['ResponseStatus']['Errors'][0]['Message'])
                 rc.changeStatus(app3, "2", "RDS_CRM_SRC_Customer", "FNumber", i['FNumber'])
                 print(sri)
+                ret_data.append(sri)
         else:
             inser_logging(app3, 'crm保存客户数据到ERP', i['FNumber'], "该客户{}数据已存在于金蝶".format(i['FName']))
             print("{}已存在于金蝶".format(i['FName']))
+    ret_dict = {
+        "code": "1",
+        "message": ret_data,
+    }
+    return ret_dict
 
 
 def SaveAfterAllocation(api_sdk, i, rc, app2, FNumber):
@@ -406,8 +414,9 @@ def ERP_CancelAllocate(app2, rc, api_sdk, FNumber, FApplyOrgName):
     else:
         return res['Result']['ResponseStatus']['Errors'][0]['Message']
 
-def inser_logging(app,FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19], FCompanyName='CP'):
 
+def inser_logging(app, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19],
+                  FCompanyName='CP'):
     sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
     data = app.insert(sql)
     return data

@@ -30,4 +30,5 @@ def customerInterface(option1, token_erp, token_china):
     api_sdk = K3CloudApiSdk()
 
     print("开始保存数据")
-    rm.ERP_customersave(api_sdk, option1, result, app3, rc, app2)
+    res = rm.ERP_customersave(api_sdk, option1, result, app3, rc, app2)
+    return res

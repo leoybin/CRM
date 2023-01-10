@@ -98,7 +98,7 @@ class CrmToDms():
                     print("{}该发票数据未批准".format(r['FBIllNo']))
             else:
                 if r["FBIllNo"] != None:
-                    sub_sql = f"""select FBIllNo from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo =3
+                    sub_sql = f"""select FBIllNo from RDS_CRM_SRC_sal_billreceivable where FBILLNO = '{r['FBIllNo']}' and FSubmitTime = '{r['Fapprovesubmittedtime']}' and FIsDo = 3
                                    """
                     try:
                         dexist = app3.select(sub_sql)

@@ -1,26 +1,7 @@
 from crmCustomer import customerOAInterface as rc
-from tkinter import *
-import time
-
-from pyrda.dbms.rds import RdClient
 
 
-root = Tk()
-btn01 = Button(root)
-root.geometry("500x300+100+200")
-btn01["text"] = "开始任务"
-btn01.pack()
-t1 = time.time()
-print(t1)
-
-
-def run_saveInterface(e):
-
-    rc.customerInterface(option1, token_erp, token_china)
-    print("此次任务已结束")
-
-
-if __name__ == '__main__':
+def run():
     # 4D18 新账套数据库totken
     # token_erp = '57DEDF26-5C00-4CA9-BBF7-57ECE07E179B'
     # A59 培训账套数据库token
@@ -37,9 +18,7 @@ if __name__ == '__main__':
         "app_sec": '224f05e7023743d9a0ab51d3bf803741',
         "server_url": 'http://cellprobio.gnway.cc/k3cloud',
     }
-    btn01.bind("<Button-1>", run_saveInterface)
-    root.mainloop()  #
+    res = rc.customerInterface(option1, token_erp, token_china)
+    return res
 
-    # res=ru.getOAList("2022-11-03")
-    #
-    # print(res[0])
+print(run())

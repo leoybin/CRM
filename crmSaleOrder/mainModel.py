@@ -47,14 +47,23 @@ def salesOrder():
         #     "server_url": 'http://cellprobio.gnway.cc/k3cloud',
         # }
 
-        mt.ERP_Save(api_sdk=api_sdk, data=res, option=option1, app2=app2, app3=app3)
+        result = mt.ERP_Save(api_sdk=api_sdk, data=res, option=option1, app2=app2, app3=app3)
+        return result
+    else:
+        ret_dict = {
+            "code": "0",
+            "message": "没有销售订单数据",
+        }
+        return ret_dict
 
 
-if __name__ == '__main__':
+def run():
     token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
     app3 = RdClient(token=token_erp)
     c = CrmToDms()
     FDate = str(datetime.datetime.now())[:10]
     c.sale_order_to_dms(app3, FDate)
     c.get_saleorder()
-    salesOrder()
+    res = salesOrder()
+    return res
+print(run())

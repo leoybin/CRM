@@ -91,9 +91,12 @@ class ERP2CRM():
                 """.format(d['FBillNo'])
             # FDOCUMENTSTATUS 单据状态
             data = pd.read_sql(sql, self.new_engine)
-            sql = 'select * from RDS_CRM_SRC_saleout where FMODIFYDATE = \'' + str(data['FMODIFYDATE'][0])[:23] + "'" + "and salesorder_no = '" + d['FBillNo'] + "'"
-            dexist = self.app3.select(sql)
+
             if not data.empty:
+                sql = 'select * from RDS_CRM_SRC_saleout where FMODIFYDATE = \'' + str(data['FMODIFYDATE'][0])[
+                                                                                   :23] + "'" + "and salesorder_no = '" + \
+                      d['FBillNo'] + "'"
+                dexist = self.app3.select(sql)
                 if not dexist:
                     data.loc[:, 'FIsdo'] = 0
                     data.to_sql('RDS_CRM_SRC_saleout', self.dms_engine, if_exists='append')

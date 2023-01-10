@@ -2,7 +2,6 @@ from crmSaleOrder import operation as sro
 import json
 
 
-
 def json_model(app2, model_data):
     '''
     物料单元model
@@ -94,7 +93,7 @@ def ERP_Save(api_sdk, data, option, app2, app3):
 
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
-
+    ret_data = []
     for i in data:
 
         if check_order_exists(api_sdk, i[0]['FSALEORDERNO']) != True:
@@ -194,7 +193,7 @@ def ERP_Save(api_sdk, data, option, app2, app3):
             print(res)
 
             if res['Result']['ResponseStatus']['IsSuccess']:
-
+                ret_data.append(save_result['Result']['ResponseStatus']['SuccessEntitys'][0]['Number'] + "保存成功")
                 submit_result = ERP_Submit(api_sdk, i[0]['FSALEORDERNO'])
 
                 if submit_result:
@@ -209,7 +208,14 @@ def ERP_Save(api_sdk, data, option, app2, app3):
                               res['Result']['ResponseStatus']['Errors'][0]['Message'])
                 sro.changeStatus(app3, i[0]['FSALEORDERNO'], "2")
                 print(res)
+                ret_data.append(res)
                 print(i[0]['FSALEORDERNO'])
+    ret_dict = {
+        "code": "1",
+        "message": ret_data,
+
+    }
+    return ret_dict
 
 
 def check_order_exists(api_sdk, FNumber):
@@ -307,6 +313,7 @@ def ERP_delete(api_sdk, FNumber):
         return f'{FNumber}订单删除成功'
     else:
         return res['Result']['ResponseStatus']['Errors'][0]['Message']
+
 
 def inser_logging(app, programName, FNumber, Fmessage):
     sql = f"""

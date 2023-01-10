@@ -47,12 +47,8 @@ class ERPTOCrm():
 
     def get_products(self, FDate):
         sql = f"""
-        select FDeptID,FUserId,FVarDateTime,FApplyOrgName,FNumber,FNAME,FSPECIFICATION,FDescription,FTaxRateId,FGROSSWEIGHT,FNETWEIGHT,FLENGTH,
-        FWIDTH,FHEIGHT,FVOLUME,FSafeStock,FMinPackCount,FPlanningStrategy,FOrderPolicy,FFixLeadTime,FVarLeadTime,FOrderIntervalTimeType,FOrderIntervalTime,
-        FMaxPOQty,FMinPOQty,FIncreaseQty,FEOQ,FVarLeadTimeLotSize,FFinishReceiptOverRate,FFinishReceiptShortRate,FMINISSUEQTY,FISMINISSUEQTY,FISBATCHMANAGE,
-        FOVERCONTROLMODE,FISKFPERIOD,FMATERIALGROUP,FTAXCATEGORYCODEID,FWEIGHTUNITID,FBASEUNITID,FVOLUMEUNITID,F_SZSP_ASSISTANT,FOldNumber,FISPURCHASE,
-        FEXPUNIT,FEXPPERIOD,FMINSTOCK,FMAXSTOCK,FDOCUMENTSTATUS
-        from rds_crm_material
+        select *
+        from rds_crm_material where FVarDateTime > '{FDate}'
         """
         df = pd.read_sql(sql, self.dms_engine)
         return df
@@ -72,55 +68,67 @@ class ERPTOCrm():
 
     def proto_crm(self, app3, FData):
         df_pro = self.get_products(FData)
-        materialId_lis = app3.select("select FNumber from RDS_CRM_SRC_MaterialDetail")
+        mater_lis = app3.select('select FNumber from RDS_CRM_SRC_MaterialDetail')
         material_lis = []
-        for i in materialId_lis:
+        for i in mater_lis:
             material_lis.append(i['FNumber'])
-        for i, r in df_pro.iterrows():
-            if r['FNumber'] not in material_lis:
-                if r['FDOCUMENTSTATUS'] == 'C':
-                    try:
-                        sql1 = f"""insert into RDS_CRM_SRC_MaterialDetail(FInterId,FDeptId,FUserId,FApplyOrgName,FVarDateTime,FNumber,FName,FSpecification,FDescription,FTaxRateId,FGROSSWEIGHT,FNETWEIGHT,FLENGTH,FWIDTH,FVOLUME,FHEIGHT,FSafeStock,FMinPackCount,FPlanningStrategy,FOrderPolicy,FFixLeadTime,FVarLeadTime,FOrderIntervalTimeType,FOrderIntervalTime,FMaxPOQty,FMinPOQty,FIncreaseQty,FEOQ,FVarLeadTimeLotSize,FFinishReceiptOverRate,FFinishReceiptShortRate,FMinIssueQty,FISMinIssueQty,FIsBatchManage,FOverControlMode,FIsKFPeriod,FMaterialGroup,FTaxCategoryCodeId,FWEIGHTUNITID,FBaseUnitId,FVOLUMEUNITID,F_SZSP_Assistant,Fisdo,FOldNumber,FIsPurchase,FExpUnit,FExpPeriod,FMinStock,FMaxStock) values
-                               ({self.getFinterId(app3, 'RDS_CRM_SRC_MaterialDetail') + 1},'{r['FDeptID']}','{r['FUserId']}','{r['FApplyOrgName']}','{str(r['FVarDateTime'])[:19]}','{r['FNumber']}','{r['FNAME']}','{r['FSPECIFICATION']}','{r['FDescription']}','{r['FTaxRateId']}','{r['FGROSSWEIGHT']}','{r['FNETWEIGHT']}','{r['FLENGTH']}','{r['FWIDTH']}','{r['FVOLUME']}','{r['FHEIGHT']}','{r['FSafeStock']}','{r['FMinPackCount']}','{r['FPlanningStrategy']}','{r['FOrderPolicy']}','{r['FFixLeadTime']}','{r['FVarLeadTime']}','{r['FOrderIntervalTimeType']}','{r['FOrderIntervalTime']}','{r['FMaxPOQty']}','{r['FMinPOQty']}','{r['FIncreaseQty']}','{r['FEOQ']}','{r['FVarLeadTimeLotSize']}','{r['FFinishReceiptOverRate']}','{r['FFinishReceiptShortRate']}','{r['FMINISSUEQTY']}','{r['FISMINISSUEQTY']}','{r['FISBATCHMANAGE']}','{r['FOVERCONTROLMODE']}','{r['FISKFPERIOD']}','{r['FMATERIALGROUP']}','{r['FTAXCATEGORYCODEID']}','{r['FWEIGHTUNITID']}','{r['FBASEUNITID']}','{r['FVOLUMEUNITID']}','{r['F_SZSP_ASSISTANT']}',0,'{r['FOldNumber']}',{r['FISPURCHASE']},'{r['FEXPUNIT']}',{r['FEXPPERIOD']},{r['FMINSTOCK']},{r['FMAXSTOCK']})"""
-                        app3.insert(sql1)
-                        print(r['FNAME'] + "该物料保存成功")
-                    except:
-                        self.inser_logging(app3, '基础物料ERP保存到CRM', f"{r['FNumber']}", f"{r['FNumber']}该基础物料数据异常,清检查该条数据")
-                        print(f"{r['FNumber']}该基础物料数据异常,清检查该条数据")
-                else:
-                    self.inser_logging(app3, '基础物料ERP保存到CRM', f"{r['FNumber']}", f"{r['FNumber']}该基础物料数据未批准")
-                    print("{}该基础物料数据未批准".format(r['FNumber']))
-
-            else:
-                if r["FNumber"] != None:
-                    sub_sql = f"""select FNumber from RDS_CRM_SRC_MaterialDetail where FNumber = '{r['FNumber']}' and FVarDateTime = '{r['FVarDateTime']}' and FIsDo !=1
-                                   """
-                    try:
-                        dexist = app3.select(sub_sql)
+        if not df_pro.empty:
+            for i, r in df_pro.iterrows():
+                if r['FNumber'] not in material_lis:
+                    if r['FDOCUMENTSTATUS'] == 'C':
+                        find_sql = "select * from RDS_CRM_SRC_MaterialDetail where FNumber = '{}'".format(r['FNumber'])
+                        dexist = app3.select(find_sql)
                         if not dexist:
-                            del_sql = "delete from RDS_CRM_SRC_MaterialDetail where FNumber = '" + str(
-                                r['FNumber']) + "'"
-                            app3.delete(del_sql)
-                            sql1 = f"""insert into RDS_CRM_SRC_MaterialDetail(FInterId,FDeptId,FUserId,FApplyOrgName,FVarDateTime,FNumber,FName,FSpecification,FDescription,FTaxRateId,FGROSSWEIGHT,FNETWEIGHT,FLENGTH,FWIDTH,FVOLUME,FHEIGHT,FSafeStock,FMinPackCount,FPlanningStrategy,FOrderPolicy,FFixLeadTime,FVarLeadTime,FOrderIntervalTimeType,FOrderIntervalTime,FMaxPOQty,FMinPOQty,FIncreaseQty,FEOQ,FVarLeadTimeLotSize,FFinishReceiptOverRate,FFinishReceiptShortRate,FMinIssueQty,FISMinIssueQty,FIsBatchManage,FOverControlMode,FIsKFPeriod,FMaterialGroup,FTaxCategoryCodeId,FWEIGHTUNITID,FBaseUnitId,FVOLUMEUNITID,F_SZSP_Assistant,Fisdo,FOldNumber,FIsPurchase,FExpUnit,FExpPeriod,FMinStock,FMaxStock) values
-                                                           ({self.getFinterId(app3, 'RDS_CRM_SRC_MaterialDetail') + 1},'{r['FDeptID']}','{r['FUserId']}','{r['FApplyOrgName']}','{str(r['FVarDateTime'])}','{r['FNumber']}','{r['FNAME']}','{r['FSPECIFICATION']}','{r['FDescription']}','{r['FTaxRateId']}','{r['FGROSSWEIGHT']}','{r['FNETWEIGHT']}','{r['FLENGTH']}','{r['FWIDTH']}','{r['FVOLUME']}','{r['FHEIGHT']}','{r['FSafeStock']}','{r['FMinPackCount']}','{r['FPlanningStrategy']}','{r['FOrderPolicy']}','{r['FFixLeadTime']}','{r['FVarLeadTime']}','{r['FOrderIntervalTimeType']}','{r['FOrderIntervalTime']}','{r['FMaxPOQty']}','{r['FMinPOQty']}','{r['FIncreaseQty']}','{r['FEOQ']}','{r['FVarLeadTimeLotSize']}','{r['FFinishReceiptOverRate']}','{r['FFinishReceiptShortRate']}','{r['FMINISSUEQTY']}','{r['FISMINISSUEQTY']}','{r['FISBATCHMANAGE']}','{r['FOVERCONTROLMODE']}','{r['FISKFPERIOD']}','{r['FMATERIALGROUP']}','{r['FTAXCATEGORYCODEID']}','{r['FWEIGHTUNITID']}','{r['FBASEUNITID']}','{r['FVOLUMEUNITID']}','{r['F_SZSP_ASSISTANT']}',0,'{r['FOldNumber']}',{r['FISPURCHASE']},'{r['FEXPUNIT']}',{r['FEXPPERIOD']},{r['FMINSTOCK']},{r['FMAXSTOCK']})"""
-                            app3.insert(sql1)
-                            print("{}该客户数据已更新".format(r['FNumber']))
+                            try:
+                                df_pro['FIsdo'] = 0
+                                lis_m = list(r)
+                                lis_m.append(0)
+                                res = pd.DataFrame(lis_m, index=df_pro.columns).T
+                                res.to_sql('RDS_CRM_SRC_MaterialDetail', self.test_engine, if_exists='append',
+                                           index=False)
+                                print(r['FNAME'] + "该物料保存成功")
+                            except:
+                                self.inser_logging(app3, '基础物料ERP保存到CRM', f"{r['FNumber']}",
+                                                   f"{r['FNumber']}该基础物料数据异常,清检查该条数据")
+                                print(f"{r['FNumber']}该基础物料数据异常,清检查该条数据")
+                        else:
+                            self.inser_logging(app3, '基础物料ERP保存到CRM', f"{r['FNumber']}", f"{r['FNumber']}该基础物料数据已存在")
+                            print("{}该基础物料数据已存在".format(r['FNumber']))
 
-                    except:
-                        self.inser_logging(app3, '基础物料ERP保存到CRM', f'{r["FNumber"]}', f'{r["FNumber"]}该物料数据异常')
-                        print(f"{r['FBIllNo']}此该物料数据异常,无法存入SRC,请检查数据")
+                    else:
+                        self.inser_logging(app3, '基础物料ERP保存到CRM', f"{r['FNumber']}", f"{r['FNumber']}该基础物料数据未批准")
+                        print("{}该基础物料数据未批准".format(r['FNumber']))
+                else:
+                    if r["FNumber"] != None:
+                        sub_sql = f"""select FNumber from RDS_CRM_SRC_MaterialDetail where FNumber = '{r['FNumber']}' and FVarDateTime = '{r['FVarDateTime']}' and FIsDo !=1
+                                       """
+                        try:
+                            dexist = app3.select(sub_sql)
+                            if not dexist:
+                                del_sql = "delete from RDS_CRM_SRC_MaterialDetail where FNumber = '" + str(
+                                    r['FNumber']) + "'"
+                                app3.delete(del_sql)
+                                sql1 = f"""insert into RDS_CRM_SRC_MaterialDetail(FInterId,FDeptId,FUserId,FApplyOrgName,FVarDateTime,FNumber,FName,FSpecification,FDescription,FTaxRateId,FGROSSWEIGHT,FNETWEIGHT,FLENGTH,FWIDTH,FVOLUME,FHEIGHT,FSafeStock,FMinPackCount,FPlanningStrategy,FOrderPolicy,FFixLeadTime,FVarLeadTime,FOrderIntervalTimeType,FOrderIntervalTime,FMaxPOQty,FMinPOQty,FIncreaseQty,FEOQ,FVarLeadTimeLotSize,FFinishReceiptOverRate,FFinishReceiptShortRate,FMinIssueQty,FISMinIssueQty,FIsBatchManage,FOverControlMode,FIsKFPeriod,FMaterialGroup,FTaxCategoryCodeId,FWEIGHTUNITID,FBaseUnitId,FVOLUMEUNITID,F_SZSP_Assistant,Fisdo,FOldNumber,FIsPurchase,FExpUnit,FExpPeriod,FMinStock,FMaxStock) values
+                                                               ({self.getFinterId(app3, 'RDS_CRM_SRC_MaterialDetail') + 1},'{r['FDeptID']}','{r['FUserId']}','{r['FApplyOrgName']}','{str(r['FVarDateTime'])}','{r['FNumber']}','{r['FNAME']}','{r['FSPECIFICATION']}','{r['FDescription']}','{r['FTaxRateId']}','{r['FGROSSWEIGHT']}','{r['FNETWEIGHT']}','{r['FLENGTH']}','{r['FWIDTH']}','{r['FVOLUME']}','{r['FHEIGHT']}','{r['FSafeStock']}','{r['FMinPackCount']}','{r['FPlanningStrategy']}','{r['FOrderPolicy']}','{r['FFixLeadTime']}','{r['FVarLeadTime']}','{r['FOrderIntervalTimeType']}','{r['FOrderIntervalTime']}','{r['FMaxPOQty']}','{r['FMinPOQty']}','{r['FIncreaseQty']}','{r['FEOQ']}','{r['FVarLeadTimeLotSize']}','{r['FFinishReceiptOverRate']}','{r['FFinishReceiptShortRate']}','{r['FMINISSUEQTY']}','{r['FISMINISSUEQTY']}','{r['FISBATCHMANAGE']}','{r['FOVERCONTROLMODE']}','{r['FISKFPERIOD']}','{r['FMATERIALGROUP']}','{r['FTAXCATEGORYCODEID']}','{r['FWEIGHTUNITID']}','{r['FBASEUNITID']}','{r['FVOLUMEUNITID']}','{r['F_SZSP_ASSISTANT']}',0,'{r['FOldNumber']}',{r['FISPURCHASE']},'{r['FEXPUNIT']}',{r['FEXPPERIOD']},{r['FMINSTOCK']},{r['FMAXSTOCK']})"""
+                                app3.insert(sql1)
+                                print("{}该客户数据已更新".format(r['FNumber']))
+
+                        except:
+                            self.inser_logging(app3, '基础物料ERP保存到CRM', r["FNumber"], r["FNumber"] + '该物料数据异常')
+                            print(f"{r['FNumber']}此该物料数据异常,无法存入SRC,请检查数据")
+        else:
+            self.inser_logging(app3, '基础物料ERP保存到CRM', "", f"没有查询到物料")
+            print("没有查询到物料")
 
     def inser_logging(self, app3, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19],
                       FCompanyName='CP'):
-        app3 = RdClient(token='B405719A-772E-4DF9-A560-C24948A3A5D6')
-        sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
-        data = app3.insert(sql)
-        return data
+        lis = []
+        lis.append([FProgramName, FNumber, FMessage,FOccurrenceTime,FCompanyName])
+        df = pd.DataFrame(lis,columns=['FProgramName','FNumber','FMessage','FOccurrenceTime','FCompanyName'])
+        df.to_sql('RDS_CRM_Log',self.test_engine,index=False,if_exists='append')
+        # sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
+        # data = app3.insert(sql)
+        return df
 
 
-if __name__ == '__main__':
-    c = ERPTOCrm()
-    token_erp = '9B6F803F-9D37-41A2-BDA0-70A7179AF0F3'
-    app3 = RdClient(token=token_erp)
-    FDate = str(datetime.datetime.now())[:10]
-    c.proto_crm(app3, FDate)
+

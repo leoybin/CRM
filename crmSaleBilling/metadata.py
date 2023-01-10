@@ -1,6 +1,9 @@
+import datetime
 import json
 from crmSaleBilling import operation as db
 from crmSaleBilling import utility as ut
+
+
 def ERP_Save(api_sdk, data, option, app2, app3):
     '''
     调用ERP保存接口
@@ -13,7 +16,7 @@ def ERP_Save(api_sdk, data, option, app2, app3):
 
     api_sdk.InitConfig(option['acct_id'], option['user_name'], option['app_id'],
                        option['app_sec'], option['server_url'])
-
+    ret_data = []
     for i in data:
 
         if check_order_exists(api_sdk, i[0]['FBILLNO']) != True:
@@ -36,7 +39,10 @@ def ERP_Save(api_sdk, data, option, app2, app3):
                                                                                                                     'FCUSTOMNAME'])
                     },
                     "FCURRENCYID": {
-                        "FNumber": "PRE001" if i[0]['FCurrencyName'] == '' else i[0]['FCurrencyName']
+                        "FNumber": "PRE001" if i[0]['FCurrencyName'] == '' else db.code_conversion(app2,
+                                                                                                         "rds_vw_currency",
+                                                                                                         "FNAME", i[0][
+                                                                                                             'FCurrencyName'])
                     },
                     "FISPRICEEXCLUDETAX": True,
                     "FSETTLEORGID": {
@@ -80,7 +86,10 @@ def ERP_Save(api_sdk, data, option, app2, app3):
                     "FsubHeadFinc": {
                         "FACCNTTIMEJUDGETIME": str(i[0]['FINVOICEDATE']),
                         "FMAINBOOKSTDCURRID": {
-                            "FNumber": "PRE001" if i[0]['FCurrencyName'] == None else i[0]['FCurrencyName']
+                            "FNumber": "PRE001" if i[0]['FCurrencyName'] == None else db.code_conversion(app2,
+                                                                                                         "rds_vw_currency",
+                                                                                                         "FNAME", i[0][
+                                                                                                             'FCurrencyName'])
                         },
                         "FEXCHANGETYPE": {
                             "FNumber": "HLTX01_SYS"
@@ -107,22 +116,21 @@ def ERP_Save(api_sdk, data, option, app2, app3):
 
                 if submit_res:
                     db.changeStatus(app3, str(i[0]['FBILLNO']), "3")
-                    # audit_res = ERP_Audit(api_sdk, FNumber)
-                    #
-                    # if audit_res:
-                    #
-                    #     db.changeStatus(app3, str(i[0]['FBILLNO']), "3")
-                    #
-                    # else:
-                    #     pass
                 else:
                     pass
+                ret_data.append(save_result['Result']['ResponseStatus']['SuccessEntitys'][0]['Number']+"保存成功")
             else:
                 inser_logging(app3, '销售开票保存到ERP', i[0]['FBILLNO'],
                               save_result['Result']['ResponseStatus']['Errors'][0]['Message'])
                 db.changeStatus(app3, str(i[0]['FBILLNO']), "2")
-                print(save_result)
+                ret_data.append(save_result)
                 print(str(i[0]['FBILLNO']))
+    ret_dict = {
+        "code":"1",
+        "message":ret_data,
+
+    }
+    return ret_dict
 
 
 def ERP_submit(api_sdk, FNumber):
@@ -245,6 +253,7 @@ def outOrder_view(api_sdk, value, materialID):
 
     return res
 
+
 def ERP_unAudit(api_sdk, FNumber):
     model = {
         "CreateOrgId": 0,
@@ -264,7 +273,7 @@ def ERP_unAudit(api_sdk, FNumber):
 
 
 def ERP_delete(api_sdk, FNumber):
-    model ={
+    model = {
         "CreateOrgId": 0,
         "Numbers": [FNumber],
         "Ids": "",
@@ -277,9 +286,9 @@ def ERP_delete(api_sdk, FNumber):
     else:
         return res['Result']['ResponseStatus']['Errors'][0]['Message']
 
-def inser_logging(app, programName, FNumber, Fmessage):
-    sql = f"""
-    insert into RDS_CP_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime) values
-    ('{programName}','{FNumber}','{Fmessage}',getdate())
-    """
-    app.insert(sql)
+
+def inser_logging(app3, FProgramName, FNumber, FMessage, FOccurrenceTime=str(datetime.datetime.now())[:19],
+                  FCompanyName='CP'):
+    sql = "insert into RDS_CRM_Log(FProgramName,FNumber,FMessage,FOccurrenceTime,FCompanyName) values('" + FProgramName + "','" + FNumber + "','" + FMessage + "','" + FOccurrenceTime + "','" + FCompanyName + "')"
+    data = app3.insert(sql)
+    return data
